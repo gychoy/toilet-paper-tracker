@@ -1,7 +1,26 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using toilet_paper_tracker_blazorserver.Interfaces
+@inject IToiletService ToiletService
 
-Welcome to your new app.
+<div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="mt-5">Toilet Paper Forecast</h2>
+        <p class="lead">Based on your current usage, you will run out of toilet paper in:</p>
+        <h1>@days <small class="text-muted">days</small></h1>
+        <p>You will run out of toilet paper on @dateOutOfToiletPaper.ToShortDateString()</p>
+      </div>
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private int days = 0;
+    private DateTime dateOutOfToiletPaper;
+
+    protected override void OnInitialized()
+    {
+        days = ToiletService.GetDaysRemaining();
+        dateOutOfToiletPaper = ToiletService.GetDateWhenToiletPaperRunsOut();
+    }
+}

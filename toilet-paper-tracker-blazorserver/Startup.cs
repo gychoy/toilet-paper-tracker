@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using toilet_paper_tracker_blazorserver.Data;
+using toilet_paper_tracker_blazorserver.Interfaces;
 
 namespace toilet_paper_tracker_blazorserver
 {
@@ -28,7 +29,8 @@ namespace toilet_paper_tracker_blazorserver
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<IToiletService, ToiletService>();
+            services.AddSingleton<IToiletRepository, ToiletRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
