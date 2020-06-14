@@ -10,6 +10,8 @@ namespace ToiletPaperTracker.Core.Interfaces
 
         int GetNumberOfRollsRemaining();
 
+        void UpdateNumberOfRollsRemaining(int number);
+
         void AddUsageData(DateTime date);
 
         void RemoveUsageData(DateTime date);

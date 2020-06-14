@@ -11,8 +11,12 @@ namespace ToiletPaperTracker.Core.Interfaces
 
         void AddUsageData(DateTime date);
 
+        void RemoveUsageData(DateTime date);
+
         IEnumerable<DateTime> GetDataPoints();
 
         DateTime GetDateWhenToiletPaperRunsOut();
+
+        void UpdateNumberOfRollsRemaining(int number);
     }
 }

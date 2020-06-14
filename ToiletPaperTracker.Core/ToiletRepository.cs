@@ -42,6 +42,14 @@ namespace ToiletPaperTracker.Core
             WriteJsonFile(existinData);
         }
 
+        public void UpdateNumberOfRollsRemaining(int number)
+        {
+            var existinData = ReadJsonFile();
+            existinData.NumberOfToiletPaperRollsRemaining = number;
+
+            WriteJsonFile(existinData);
+        }
+
         private ToiletPaperUsageData ReadJsonFile()
         {
             var fileData = File.ReadAllText($"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}{DATA_FILE_NAME}");

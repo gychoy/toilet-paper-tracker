@@ -18,7 +18,7 @@ namespace ToiletPaperTracker.Core
 
         public int GetNumberOfRollsRemaining() => _repository.GetNumberOfRollsRemaining();        
 
-        public IEnumerable<DateTime> GetDataPoints() => _repository.GetUsageData();
+        public IEnumerable<DateTime> GetDataPoints() => _repository.GetUsageData().OrderBy(d => d);
 
         public int GetDaysRemaining()
         {
@@ -35,5 +35,9 @@ namespace ToiletPaperTracker.Core
         }
 
         public DateTime GetDateWhenToiletPaperRunsOut() => DateTime.Now.Date.AddDays(GetDaysRemaining());
+
+        public void UpdateNumberOfRollsRemaining(int number) => _repository.UpdateNumberOfRollsRemaining(number);
+
+        public void RemoveUsageData(DateTime date) => _repository.RemoveUsageData(date);
     }
 }
