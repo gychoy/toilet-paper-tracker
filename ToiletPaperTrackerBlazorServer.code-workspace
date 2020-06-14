@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "ToiletPaperTracker.BlazorServer"
+		},
+		{		
+			"path": "ToiletPaperTracker.Core"
+		},
+		{		
+			"path": "ToiletPaperTracker.Contracts"
+		}
+	],
+	"settings": {}
+}

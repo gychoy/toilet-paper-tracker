@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace toilet_paper_tracker_blazorserver.Data
+namespace ToiletPaperTracker.Contracts
 {
     public class ToiletPaperUsageData
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace toilet_paper_tracker_blazorserver.Interfaces
+namespace ToiletPaperTracker.Core.Interfaces
 {
     public interface IToiletService 
     {

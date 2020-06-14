@@ -3,14 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
-using toilet_paper_tracker_blazorserver.Interfaces;
+using ToiletPaperTracker.Contracts;
+using ToiletPaperTracker.Core.Interfaces;
 
-namespace toilet_paper_tracker_blazorserver.Data
+namespace ToiletPaperTracker.Core
 {
     public class ToiletRepository : IToiletRepository
     {
-        private const string DATA_FILE_NAME = @"Data\data.json";
+        private const string DATA_FILE_NAME = "\\Data\\data.json";
 
         public void AddUsageData(DateTime date)
         {
@@ -42,7 +44,7 @@ namespace toilet_paper_tracker_blazorserver.Data
 
         private ToiletPaperUsageData ReadJsonFile()
         {
-            var fileData = File.ReadAllText(DATA_FILE_NAME);
+            var fileData = File.ReadAllText($"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}{DATA_FILE_NAME}");
             return JsonConvert.DeserializeObject<ToiletPaperUsageData>(fileData);
         }
 
@@ -50,7 +52,7 @@ namespace toilet_paper_tracker_blazorserver.Data
         {
             var serializedData = JsonConvert.SerializeObject(data);
 
-            File.WriteAllText(DATA_FILE_NAME, serializedData);
+            File.WriteAllText($"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}{DATA_FILE_NAME}", serializedData);
         }
     }
 }

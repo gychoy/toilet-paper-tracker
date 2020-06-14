@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using toilet_paper_tracker_blazorserver.Data;
-using toilet_paper_tracker_blazorserver.Interfaces;
+using ToiletPaperTracker.Core;
+using ToiletPaperTracker.Core.Interfaces;
 
-namespace toilet_paper_tracker_blazorserver
+namespace ToiletPaperTracker
 {
     public class Startup
     {

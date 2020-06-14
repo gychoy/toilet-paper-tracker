@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using toilet_paper_tracker_blazorserver.Interfaces;
+using ToiletPaperTracker.Core.Interfaces;
 
-namespace toilet_paper_tracker_blazorserver.Data
+namespace ToiletPaperTracker.Core
 {
     public class ToiletService : IToiletService
     {
