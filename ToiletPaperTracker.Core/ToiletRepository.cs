@@ -1,10 +1,7 @@
-
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using Newtonsoft.Json;
 using ToiletPaperTracker.Contracts;
 using ToiletPaperTracker.Core.Interfaces;
 
@@ -12,8 +9,11 @@ namespace ToiletPaperTracker.Core
 {
     public class ToiletRepository : IToiletRepository
     {
-        private const string DATA_FILE_NAME = "\\Data\\data.json";
+        private const string DATA_FILE_NAME = "Data\\data.json";
 
+        //todo: Reading files is not compatible with WASM
+        private string TestJsonData = "{\"numberOfToiletPaperRollsRemaining\" : 12, \"dataPoints\":[ \"2020-05-08\", \"2020-05-13\",\"2020-05-14\",\"2020-05-19\",\"2020-05-23\",\"2020-06-01\",\"2020-06-07\",\"2020-06-12\"]}";
+        
         public void AddUsageData(DateTime date)
         {
             var existinData = ReadJsonFile();
@@ -52,15 +52,20 @@ namespace ToiletPaperTracker.Core
 
         private ToiletPaperUsageData ReadJsonFile()
         {
-            var fileData = File.ReadAllText($"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}{DATA_FILE_NAME}");
-            return JsonConvert.DeserializeObject<ToiletPaperUsageData>(fileData);
+            //todo: Reading files is not compatible with WASM
+            //var fileData = File.ReadAllText(DATA_FILE_NAME);
+
+            return JsonConvert.DeserializeObject<ToiletPaperUsageData>(TestJsonData);
         }
 
         private void WriteJsonFile(ToiletPaperUsageData data)
         {
             var serializedData = JsonConvert.SerializeObject(data);
 
-            File.WriteAllText($"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}{DATA_FILE_NAME}", serializedData);
+            TestJsonData = serializedData;
+
+            //todo: Reading files is not compatible with WASM
+            //File.WriteAllText(DATA_FILE_NAME, serializedData);
         }
     }
 }

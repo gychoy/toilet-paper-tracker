@@ -8,7 +8,11 @@
             "type": "blazorwasm",
             "name": "Launch and Debug Blazor WebAssembly Application",
             "request": "launch",
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+            "environmentVariables": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+            }
         }
     ]
 }
