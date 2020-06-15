@@ -3,11 +3,14 @@
 		{
 			"path": "ToiletPaperTracker.BlazorServer"
 		},
-		{		
+		{
 			"path": "ToiletPaperTracker.Core"
 		},
-		{		
+		{
 			"path": "ToiletPaperTracker.Contracts"
+		},
+		{
+			"path": "ToiletPaperTracker.BlazorWASM"
 		}
 	],
 	"settings": {}

@@ -1,14 +1,12 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using ToiletPaperTracker.Core.Interfaces;
+using ToiletPaperTracker.Core;
 
-namespace toilet_paper_tracker_blazorwasm
+namespace ToiletPaperTracker.BlazorWASM
 {
     public class Program
     {
@@ -18,6 +16,10 @@ namespace toilet_paper_tracker_blazorwasm
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+
+            builder.Services.AddSingleton<IToiletService, ToiletService>();
+            builder.Services.AddSingleton<IToiletRepository, ToiletRepository>();
 
             await builder.Build().RunAsync();
         }

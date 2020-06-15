@@ -1,0 +1,100 @@
+@page "/settings"
+
+@using ToiletPaperTracker.Core.Interfaces
+@using System.Linq
+@inject IToiletService ToiletService
+@inject IJSRuntime JsRuntime;
+
+<div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="mt-5">Settings</h2>
+        <p>
+          <label for="numberOfToiletPaperRollsRemaining">
+            <span>Number of toilet paper rolls remaining:</span>
+            <input id="tbNumberOfToiletPaperRollsRemaining" type="text" name="numberOfToiletPaperRollsRemaining" @bind="NumberOfToiletPaperRollsRemaining" @oninput="OnNumberOfToiletPaperRollsRemainingChanged">
+          </label>
+        </p>
+        <p>
+          <label for="addUsageDate">
+            <span>Add Usage Date:</span>
+            <input id="tbNumberOfToiletPaperRollsRemaining" type="text" name="addUsageDate" @bind="AddDataPointDate">
+          </label>
+          <button class="btn btn-primary"
+              @onclick="AddDataPoint">
+            Add Usage Date
+          </button>
+        </p>
+        <p>
+          <h3>Usage Dates</h3>
+          <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var data in UsageDataPoints)
+                {
+                    <tr>
+                        <td>@data.ToShortDateString()</td>
+                        <td>
+                          <button class="btn btn-primary"
+                              @onclick="@(e => DeleteDataPoint(e, @data))">
+                            Delete
+                          </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </p>
+      </div>
+    </div>
+</div>
+
+@code 
+{
+  private string AddDataPointDate;
+
+      private int NumberOfToiletPaperRollsRemaining;
+
+      private IEnumerable<DateTime> UsageDataPoints;
+
+      protected override void OnInitialized()
+      {
+          UsageDataPoints = ToiletService.GetDataPoints();
+          NumberOfToiletPaperRollsRemaining = ToiletService.GetNumberOfRollsRemaining();
+      }
+
+      private void DeleteDataPoint(MouseEventArgs e, DateTime date)
+      {
+          ToiletService.RemoveUsageData(date);
+          UsageDataPoints = ToiletService.GetDataPoints();
+      }
+
+      private void AddDataPoint()
+      {
+          if (DateTime.TryParse(AddDataPointDate, out var parsedDate))
+          {
+              ToiletService.AddUsageData(parsedDate);
+              NumberOfToiletPaperRollsRemaining--;
+              ToiletService.UpdateNumberOfRollsRemaining(NumberOfToiletPaperRollsRemaining);
+              UsageDataPoints = ToiletService.GetDataPoints();
+          }
+          else
+          {
+              //todo: implement proper error messaging
+              JsRuntime.InvokeAsync<bool>("alert", "Unable to save data point.");
+          }
+      }
+
+      private void OnNumberOfToiletPaperRollsRemainingChanged(ChangeEventArgs e)
+      {
+          if (int.TryParse(e.Value.ToString(), out var newValue))
+          {
+              ToiletService.UpdateNumberOfRollsRemaining(newValue);
+          }
+      }
+}

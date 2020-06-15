@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/1e53fa02-73da-44c0-aed4-016633983bb8/resourceGroups/Default-Web-WestUS/providers/Microsoft.Web/sites/ToiletPaperForecast",
+    "appService.deploySubpath": "publish"
+}

@@ -26,9 +26,9 @@ namespace ToiletPaperTracker.Core
             WriteJsonFile(existinData);
         }
 
-        public int GetNumberOfRollsRemaining() =>ReadJsonFile().NumberOfToiletPaperRollsRemaining;        
+        public int GetNumberOfRollsRemaining() => ReadJsonFile().NumberOfToiletPaperRollsRemaining;
 
-        public IEnumerable<DateTime> GetUsageData() => ReadJsonFile().DataPoints;        
+        public IEnumerable<DateTime> GetUsageData() => ReadJsonFile().DataPoints;
 
         public void RemoveUsageData(DateTime date)
         {

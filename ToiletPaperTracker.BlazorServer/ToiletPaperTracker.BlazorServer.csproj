@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>ToiletPaperTracker</RootNamespace>
+    <RootNamespace>ToiletPaperTracker.BlazorServer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToiletPaperTracker.Core\ToiletPaperTracker.Core.csproj" />
