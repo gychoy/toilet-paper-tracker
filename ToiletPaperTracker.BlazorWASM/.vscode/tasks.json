@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/ToilerPaperTracker.BlazorWASM\toilet-paper-tracker-blazorwasm.csproj",
+                "${workspaceFolder}/ToilerPaperTracker.BlazorWASM/ToiletPaperTracker.BlazorWASM.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/ToilerPaperTracker.BlazorWASM\toilet-paper-tracker-blazorwasm.csproj",
+                "${workspaceFolder}/ToilerPaperTracker.BlazorWASM/ToiletPaperTracker.BlazorWASM.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/ToilerPaperTracker.BlazorWASM\toilet-paper-tracker-blazorwasm.csproj",
+                "${workspaceFolder}/ToilerPaperTracker.BlazorWASM/ToiletPaperTracker.BlazorWASM.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
