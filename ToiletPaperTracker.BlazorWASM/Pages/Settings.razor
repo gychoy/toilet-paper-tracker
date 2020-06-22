@@ -59,42 +59,40 @@
 
     private int NumberOfToiletPaperRollsRemaining;
 
-    private IEnumerable<DateTime> UsageDataPoints;
+    private IEnumerable<DateTime> UsageDataPoints = new List<DateTime>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        UsageDataPoints = ToiletService.GetDataPoints();
-        NumberOfToiletPaperRollsRemaining = ToiletService.GetNumberOfRollsRemaining();
+        UsageDataPoints = await ToiletService.GetDataPoints();
+        NumberOfToiletPaperRollsRemaining = await ToiletService.GetNumberOfRollsRemaining();        
     }
 
-    private void DeleteDataPoint(MouseEventArgs e, DateTime date)
+    private async Task DeleteDataPoint(MouseEventArgs e, DateTime date)
     {
-        ToiletService.RemoveUsageData(date);
-        UsageDataPoints = ToiletService.GetDataPoints();
+        await ToiletService.RemoveUsageData(date);
+        UsageDataPoints = await ToiletService.GetDataPoints();
     }
 
-    private void AddDataPoint()
+    private async Task AddDataPoint()
     {
         try
         {
             if (AddDataPointDate == null)
-                JsRuntime.InvokeAsync<bool>("alert", "Date required.");
+                await JsRuntime.InvokeAsync<bool>("alert", "Date required.");
 
-            ToiletService.AddUsageData(AddDataPointDate.Value);
-            NumberOfToiletPaperRollsRemaining--;
-            ToiletService.UpdateNumberOfRollsRemaining(NumberOfToiletPaperRollsRemaining);
-            UsageDataPoints = ToiletService.GetDataPoints();
+            await ToiletService.AddUsageData(AddDataPointDate.Value);
+            UsageDataPoints = await ToiletService.GetDataPoints();
         }
         catch (Exception ex)
         {
             //todo: implement proper error messaging
-            JsRuntime.InvokeAsync<bool>("alert", "Unable to save data point.");
+            await JsRuntime.InvokeAsync<bool>("alert", "Unable to save data point.");
 
-            JsRuntime.InvokeAsync<bool>("console.log", $"Unable to save data point: {ex.ToString()}");
+            await JsRuntime.InvokeAsync<bool>("console.log", $"Unable to save data point: {ex.ToString()}");
         }
     }
 
-    private void OnNumberOfToiletPaperRollsRemainingChanged(ChangeEventArgs e)
+    private async Task OnNumberOfToiletPaperRollsRemainingChanged(ChangeEventArgs e)
     {
         if (int.TryParse(e.Value.ToString(), out var newValue))
         {

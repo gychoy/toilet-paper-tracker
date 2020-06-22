@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ToiletPaperTracker.Core.Interfaces;
 
 namespace ToiletPaperTracker.Core
@@ -14,16 +15,16 @@ namespace ToiletPaperTracker.Core
             _repository = repository;
         }
 
-        public void AddUsageData(DateTime date) => _repository.AddUsageData(date);
+        public async Task AddUsageData(DateTime date) => await _repository.AddUsageData(date);
 
-        public int GetNumberOfRollsRemaining() => _repository.GetNumberOfRollsRemaining();        
+        public async Task<int> GetNumberOfRollsRemaining() => await _repository.GetNumberOfRollsRemaining();        
 
-        public IEnumerable<DateTime> GetDataPoints() => _repository.GetUsageData().OrderBy(d => d);
+        public async Task<IEnumerable<DateTime>> GetDataPoints() => (await _repository.GetUsageData()).OrderBy(d => d);
 
-        public int GetDaysRemaining()
+        public async Task<int> GetDaysRemaining()
         {
-            var rollsRemaining = _repository.GetNumberOfRollsRemaining();
-            var datesConsumed = _repository.GetUsageData().OrderBy(x => x).ToList();
+            var rollsRemaining = await GetNumberOfRollsRemaining();
+            var datesConsumed = (await GetDataPoints()).ToList();
 
             var toiletPaperDays = new List<int>();
             for(var i = 1; i < datesConsumed.Count(); i++)
@@ -34,10 +35,18 @@ namespace ToiletPaperTracker.Core
             return rollsRemaining * (int)Math.Floor((double)toiletPaperDays.Sum() / toiletPaperDays.Count());
         }
 
-        public DateTime GetDateWhenToiletPaperRunsOut() => DateTime.Now.Date.AddDays(GetDaysRemaining());
+        public async Task<DateTime> GetDateWhenToiletPaperRunsOut()
+        {
+            var daysRemaining = await GetDaysRemaining();
 
-        public void UpdateNumberOfRollsRemaining(int number) => _repository.UpdateNumberOfRollsRemaining(number);
+            if (daysRemaining > 0)
+                return DateTime.Now.Date.AddDays(daysRemaining);
+            else
+                return DateTime.Now.Date;
+        }
 
-        public void RemoveUsageData(DateTime date) => _repository.RemoveUsageData(date);
+        public async Task UpdateNumberOfRollsRemaining(int number) => await _repository.UpdateNumberOfRollsRemaining(number);
+
+        public async Task RemoveUsageData(DateTime date) => await _repository.RemoveUsageData(date);
     }
 }

@@ -1,10 +1,11 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using ToiletPaperTracker.Core.Interfaces;
 using ToiletPaperTracker.Core;
+using ToiletPaperTracker.Core.Interfaces;
 
 namespace ToiletPaperTracker.BlazorWASM
 {
@@ -17,9 +18,9 @@ namespace ToiletPaperTracker.BlazorWASM
 
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-
-            builder.Services.AddSingleton<IToiletService, ToiletService>();
-            builder.Services.AddSingleton<IToiletRepository, ToiletRepository>();
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddTransient<IToiletService, ToiletService>();
+            builder.Services.AddTransient<IToiletRepository, ToiletRepository>();
 
             await builder.Build().RunAsync();
         }

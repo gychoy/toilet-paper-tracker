@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ToiletPaperTracker.Core.Interfaces
 {
     public interface IToiletService 
     {
-        int GetDaysRemaining();
+        Task<int> GetDaysRemaining();
 
-        int GetNumberOfRollsRemaining();
+        Task<int> GetNumberOfRollsRemaining();
 
-        void AddUsageData(DateTime date);
+        Task AddUsageData(DateTime date);
 
-        void RemoveUsageData(DateTime date);
+        Task RemoveUsageData(DateTime date);
 
-        IEnumerable<DateTime> GetDataPoints();
+        Task<IEnumerable<DateTime>> GetDataPoints();
 
-        DateTime GetDateWhenToiletPaperRunsOut();
+        Task<DateTime> GetDateWhenToiletPaperRunsOut();
 
-        void UpdateNumberOfRollsRemaining(int number);
+        Task UpdateNumberOfRollsRemaining(int number);
     }
 }

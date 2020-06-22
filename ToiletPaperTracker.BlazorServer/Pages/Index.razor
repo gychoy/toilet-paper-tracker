@@ -15,12 +15,14 @@
 </div>
 
 @code {
-    private int days = 0;
-    private DateTime dateOutOfToiletPaper;
+    public int days = 0;
 
-    protected override void OnInitialized()
+    public DateTime dateOutOfToiletPaper;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        days = ToiletService.GetDaysRemaining();
-        dateOutOfToiletPaper = ToiletService.GetDateWhenToiletPaperRunsOut();
+        days = await ToiletService.GetDaysRemaining();
+        dateOutOfToiletPaper = await ToiletService.GetDateWhenToiletPaperRunsOut();
+        StateHasChanged();
     }
 }

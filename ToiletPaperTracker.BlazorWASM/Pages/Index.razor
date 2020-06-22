@@ -18,9 +18,9 @@
     private int days = 0;
     private DateTime dateOutOfToiletPaper;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        days = ToiletService.GetDaysRemaining();
-        dateOutOfToiletPaper = ToiletService.GetDateWhenToiletPaperRunsOut();
+        days = await ToiletService.GetDaysRemaining();
+        dateOutOfToiletPaper = await ToiletService.GetDateWhenToiletPaperRunsOut();        
     }
 }

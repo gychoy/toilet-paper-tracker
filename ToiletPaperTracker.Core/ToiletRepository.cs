@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ToiletPaperTracker.Contracts;
 using ToiletPaperTracker.Core.Interfaces;
 
@@ -9,63 +9,67 @@ namespace ToiletPaperTracker.Core
 {
     public class ToiletRepository : IToiletRepository
     {
-        private const string DATA_FILE_NAME = "Data\\data.json";
+        private readonly Blazored.LocalStorage.ILocalStorageService _storage;
 
-        //todo: Reading files is not compatible with WASM
-        private string TestJsonData = "{\"numberOfToiletPaperRollsRemaining\" : 12, \"dataPoints\":[ \"2020-05-08\", \"2020-05-13\",\"2020-05-14\",\"2020-05-19\",\"2020-05-23\",\"2020-06-01\",\"2020-06-07\",\"2020-06-12\"]}";
-        
-        public void AddUsageData(DateTime date)
+        public ToiletRepository(Blazored.LocalStorage.ILocalStorageService storage)
         {
-            var existinData = ReadJsonFile();
+            _storage = storage;
+        }
+
+        public async Task AddUsageData(DateTime date)
+        {
+            var existinData = await GetData();
 
             var dataPoints = existinData.DataPoints.ToList();
             dataPoints.Add(date);
 
             existinData.DataPoints = dataPoints;
 
-            WriteJsonFile(existinData);
+            await WriteData(existinData);
         }
 
-        public int GetNumberOfRollsRemaining() => ReadJsonFile().NumberOfToiletPaperRollsRemaining;
+        public async Task<int> GetNumberOfRollsRemaining() => (await GetData()).NumberOfToiletPaperRollsRemaining;
 
-        public IEnumerable<DateTime> GetUsageData() => ReadJsonFile().DataPoints;
+        public async Task<IEnumerable<DateTime>> GetUsageData() => (await GetData()).DataPoints;
 
-        public void RemoveUsageData(DateTime date)
+        public async Task RemoveUsageData(DateTime date)
         {
-            var existinData = ReadJsonFile();
+            var existinData = await GetData();
 
             var dataPoints = existinData.DataPoints.ToList();
             dataPoints.Remove(date);
 
             existinData.DataPoints = dataPoints;
 
-            WriteJsonFile(existinData);
+            await WriteData(existinData);
         }
 
-        public void UpdateNumberOfRollsRemaining(int number)
+        public async Task UpdateNumberOfRollsRemaining(int number)
         {
-            var existinData = ReadJsonFile();
+            var existinData = await GetData();
             existinData.NumberOfToiletPaperRollsRemaining = number;
 
-            WriteJsonFile(existinData);
+            await WriteData(existinData);
         }
 
-        private ToiletPaperUsageData ReadJsonFile()
+        private async Task<ToiletPaperUsageData> GetData()
         {
-            //todo: Reading files is not compatible with WASM
-            //var fileData = File.ReadAllText(DATA_FILE_NAME);
+            var data = new ToiletPaperUsageData(); ;
 
-            return JsonConvert.DeserializeObject<ToiletPaperUsageData>(TestJsonData);
+            // if data is empty, initialize it and save a new data set
+            if (!(await _storage.ContainKeyAsync("data")))
+            {
+                data = new ToiletPaperUsageData { NumberOfToiletPaperRollsRemaining = 0, DataPoints = new List<DateTime> { DateTime.Now.Date } };
+                await WriteData(data);
+            }
+            else
+            {
+                data = await _storage.GetItemAsync<ToiletPaperUsageData>("data");
+            }
+
+            return data;
         }
 
-        private void WriteJsonFile(ToiletPaperUsageData data)
-        {
-            var serializedData = JsonConvert.SerializeObject(data);
-
-            TestJsonData = serializedData;
-
-            //todo: Reading files is not compatible with WASM
-            //File.WriteAllText(DATA_FILE_NAME, serializedData);
-        }
+        private async Task WriteData(ToiletPaperUsageData data)=> await _storage.SetItemAsync<ToiletPaperUsageData>("data", data);
     }
 }
