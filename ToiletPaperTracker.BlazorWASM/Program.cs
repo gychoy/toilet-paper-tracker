@@ -5,7 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ToiletPaperTracker.Core;
-using ToiletPaperTracker.Core.Interfaces;
+using ToiletPaperTracker.Contracts.Interfaces;
 
 namespace ToiletPaperTracker.BlazorWASM
 {

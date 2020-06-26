@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToiletPaperTracker.Core.Interfaces;
+using ToiletPaperTracker.Contracts.Interfaces;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("ToiletPaperTracker.UnitTests")]
 
 namespace ToiletPaperTracker.Core
 {
@@ -48,5 +50,17 @@ namespace ToiletPaperTracker.Core
         public async Task UpdateNumberOfRollsRemaining(int number) => await _repository.UpdateNumberOfRollsRemaining(number);
 
         public async Task RemoveUsageData(DateTime date) => await _repository.RemoveUsageData(date);
+
+        internal int CalculateDaysRemaining(int numberOfRollsRemaining, IEnumerable<DateTime> datesConsumed)
+        {
+            var datesPoints = datesConsumed.ToList();
+            var toiletPaperDays = new List<int>();
+            for (var i = 1; i < datesPoints.Count(); i++)
+            {
+                toiletPaperDays.Add((datesPoints[i] - datesPoints[i - 1]).Days);
+            }
+
+            return numberOfRollsRemaining * (int)Math.Floor((double)toiletPaperDays.Sum() / toiletPaperDays.Count());
+        }
     }
 }

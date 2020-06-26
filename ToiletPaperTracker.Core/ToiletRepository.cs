@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToiletPaperTracker.Contracts;
-using ToiletPaperTracker.Core.Interfaces;
+using ToiletPaperTracker.Contracts.Interfaces;
 
 namespace ToiletPaperTracker.Core
 {

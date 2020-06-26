@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ToiletPaperTracker.Core;
-using ToiletPaperTracker.Core.Interfaces;
+using ToiletPaperTracker.Contracts.Interfaces;
 
 namespace ToiletPaperTracker.BlazorServer
 {

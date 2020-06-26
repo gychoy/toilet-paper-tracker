@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ToiletPaperTracker.Core.Interfaces
+namespace ToiletPaperTracker.Contracts.Interfaces
 {
     public interface IToiletRepository
     {
