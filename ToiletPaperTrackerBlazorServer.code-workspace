@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "ToiletPaperTracker.BlazorServer"
+		},		
+		{
+			"path": "ToiletPaperTracker.BlazorWASM"
 		},
 		{
 			"path": "ToiletPaperTracker.Core"
